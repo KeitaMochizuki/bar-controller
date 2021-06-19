@@ -1,0 +1,6 @@
+apiVersion: barcontroller.my.domain/v1
+kind: Bar
+metadata:
+  name: sample-message-1
+spec:
+  message: "world"
