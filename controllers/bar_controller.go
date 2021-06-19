@@ -58,14 +58,17 @@ func (r *BarReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.R
 
 	// ② bar.spac.messageとbar.status.messageを比較して差分があれば更新
 
-	if bar.Spec.Message != bar.Status.Message {
-		bar.Status.Message = "Hello " + bar.Spec.Message
+	messageStatus := "Hello " + bar.Spec.Message
+	if messageStatus != bar.Status.Message {
+		bar.Status.Message = messageStatus
 		if err := r.Status().Update(ctx, &bar); err != nil {
 			Log.Error(err, "Unable to update Bar status bar.status.message")
 			return ctrl.Result{}, err
 		}
+		Log.Info("Update Bar status bar.status.message")
+		return ctrl.Result{}, nil
 	}
-
+	Log.Info("Need not to update Bar status bar.status.message")
 	return ctrl.Result{}, nil
 }
 
